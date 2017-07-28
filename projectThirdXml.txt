@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.raza.project.Main3Activity">
+
+
+    <Button
+        android:text="STOP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/forward"
+        android:layout_alignEnd="@+id/forward"
+        android:layout_marginTop="17dp"
+        android:id="@+id/stop"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="BACKWARD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backward"
+        android:layout_below="@+id/stop"
+        android:layout_alignStart="@+id/stop"
+        android:layout_marginTop="20dp"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="RIGHT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/stop"
+        android:layout_toEndOf="@+id/backward"
+        android:id="@+id/right"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="LEFT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/stop"
+        android:layout_toStartOf="@+id/forward"
+        android:layout_marginEnd="12dp"
+        android:id="@+id/left"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="UP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/backward"
+        android:layout_alignStart="@+id/left"
+        android:layout_marginTop="51dp"
+        android:id="@+id/up"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="DOWN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/up"
+        android:layout_alignStart="@+id/up"
+        android:layout_marginTop="23dp"
+        android:id="@+id/down"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="CLOSE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/down"
+        android:layout_alignStart="@+id/open"
+        android:id="@+id/close"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="OPEN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/open"
+        android:layout_alignBaseline="@+id/up"
+        android:layout_alignBottom="@+id/up"
+        android:layout_toEndOf="@+id/backward"
+        android:textSize="14dp" />
+
+    <Button
+        android:text="FORWARD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:id="@+id/forward"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="14dp" />
+
+</RelativeLayout>

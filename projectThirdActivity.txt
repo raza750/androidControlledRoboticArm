@@ -1,0 +1,305 @@
+package com.example.raza.project;
+
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.UUID;
+
+public class Main3Activity extends AppCompatActivity {
+
+    private ProgressDialog progress;
+    BluetoothAdapter myBluetooth= null;
+    BluetoothSocket btSocket= null;
+    private boolean isBtConnected= false;
+    String address= null;
+    static final UUID myUUID=UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Intent newInt= getIntent();
+        address=newInt.getStringExtra(Bluetooth.EXTRA_ADDRESS);
+
+        setContentView(R.layout.activity_main3);
+
+
+        final Button forward= (Button)findViewById(R.id.forward);
+        final Button backward= (Button)findViewById(R.id.backward);
+        final Button stop= (Button)findViewById(R.id.stop);
+        final Button right= (Button)findViewById(R.id.right);
+        final Button left= (Button)findViewById(R.id.left);
+        final Button up= (Button)findViewById(R.id.up);
+        final Button down= (Button)findViewById(R.id.down);
+        final Button open= (Button)findViewById(R.id.open);
+        final Button close= (Button)findViewById(R.id.close);
+
+        new ConnectBT().execute();
+
+        forward.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                moveForward();
+            }
+        });
+
+        backward.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v) {
+                moveBackward();
+            }
+        });
+
+        left.setOnClickListener(new View.OnClickListener()
+        {
+            public  void onClick(View v)
+            {
+                moveLeft();
+            }
+        });
+
+        right.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                moveRight();
+            }
+        });
+
+        stop.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                halt();
+            }
+        });
+
+        up.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                armUp();
+            }
+        });
+
+        down.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                armDown();
+            }
+        });
+
+        open.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                armOpen();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                armClose();
+            }
+        });
+
+    }
+
+    private void msg(String s)
+    {
+        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+    }
+
+    private void moveForward()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("U".toString().getBytes());
+            } catch (IOException e)
+            {
+             msg("Error");
+            }
+        }
+    }
+
+    private void moveBackward()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("D".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void moveLeft()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("R".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void moveRight()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("L".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void halt()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("C".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void armUp()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("b".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void armDown()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("a".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void armClose()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("d".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void armOpen()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("c".toString().getBytes());
+            }catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+
+
+    private class ConnectBT extends AsyncTask<Void,Void,Void>
+    {
+
+        private boolean ConnectSuccess= true;
+
+        protected void onPreExecute()
+        {
+            progress= ProgressDialog.show(Main3Activity.this,"Connecting","");
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try
+            {
+                if(btSocket==null|| !isBtConnected )
+                {
+                    myBluetooth=BluetoothAdapter.getDefaultAdapter();
+                    BluetoothDevice remoteDevice= myBluetooth.getRemoteDevice(address);
+                    btSocket= remoteDevice.createInsecureRfcommSocketToServiceRecord(myUUID);
+                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+                    btSocket.connect();
+                }
+            } catch (IOException e)
+            {
+                ConnectSuccess=false;
+            }
+          return null;
+        }
+
+        protected void onPostExecute(Void result)
+        {
+            super.onPostExecute(result);
+            if(!ConnectSuccess)
+            {
+                msg("Cnnection Failed");
+                finish();
+            } else {
+                msg("Connected");
+                isBtConnected=true;
+            }
+            progress.dismiss();
+        }
+    }
+
+
+
+}
